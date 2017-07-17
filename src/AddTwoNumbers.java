@@ -19,8 +19,8 @@
 public class AddTwoNumbers {
 
     public static void main(String[] args) {
-        int num1 = 342;
-        int num2 = 465;
+        int num1 = 346;
+        int num2 = 86;
 
         ListNode l1 = new AddTwoNumbers().proListNode(num1);
         ListNode l2 = new AddTwoNumbers().proListNode(num2);
@@ -37,20 +37,23 @@ public class AddTwoNumbers {
 
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode tmp = l1;
-        while (l1 != null) {
-           if (l1.val + l2.val >= 10) {
-               if (l1.next == null) {
-                   l1.next = new ListNode(1);
-               } else {
-                   l1.next.val++;
-               }
-           }
-           l1.val = (l1.val + l2.val) % 10;
-           l1 = l1.next;
-           l2 = l2.next;
+        int carry = 0;
+        ListNode dummyNode = new ListNode(0), cur = dummyNode;
+        while (l1 != null || l2 != null) {
+            int x = (l1 != null) ? l1.val : 0;
+            int y = (l2 != null) ? l2.val : 0;
+            int sum = x + y + carry;
+            carry = sum/10;
+            cur.next = new ListNode(sum % 10);
+            cur = cur.next;
+            if (l1 != null) l1 = l1.next;
+            if (l2 != null) l2 = l2.next;
         }
-        return tmp;
+        if (carry > 0) {
+            cur.next = new ListNode(carry);
+        }
+
+        return dummyNode.next;
     }
 
 
