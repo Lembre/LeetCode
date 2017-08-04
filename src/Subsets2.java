@@ -29,6 +29,7 @@ public class Subsets2 {
 
     public ArrayList<ArrayList<Integer>> solution(int[] nums) {
         ArrayList<ArrayList<Integer>> results = new ArrayList<>();
+        // 排序 关键点
         Arrays.sort(nums);
         subsetHelp(nums, 0, new ArrayList<Integer>(), results);
         return  results;
@@ -41,7 +42,7 @@ public class Subsets2 {
                                          int startIndex,
                                          ArrayList<Integer> subset,
                                          ArrayList<ArrayList<Integer>> results) {
-
+        // new 是关键点之一
         results.add(new ArrayList<>(subset));
 
         for (int i = startIndex; i < nums.length; i++) {

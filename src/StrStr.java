@@ -22,7 +22,7 @@ public class StrStr {
             int sl = source.length();
             int tl = target.length();
 
-            for (int i = 0; i < sl; i++) {
+            for (int i = 0; i < sl - tl + 1; i++) {
                 for (int j = 0; j < tl; j++) {
                     if (source.charAt(i+j) != target.charAt(j)) {
                         break;
@@ -58,7 +58,7 @@ public class StrStr {
             }
 
             int hashCode = 0;
-            for (int i = 0; i < sl - tl; i++) {
+            for (int i = 0; i < sl; i++) {
                 hashCode = (31 * hashCode + source.charAt(i)) % BASE;
                 if (i < tl - 1) {
                     continue;
@@ -87,7 +87,7 @@ public class StrStr {
 
     public static void main(String[] args) {
         String source = "abcdabcdefg";
-        String target = "bcd";
+        String target = "efg";
 
         Solution solution = new StrStr().getSolution();
         //int ans = solution.way1(source, target);
