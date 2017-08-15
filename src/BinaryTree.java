@@ -167,7 +167,7 @@ public class BinaryTree {
                 node = node.leftChild;
             }
 
-            while (stack.size() > 0) {
+            if (stack.size() > 0) {
                 node = stack.pop();
                 node = node.rightChild;
             }
@@ -184,7 +184,7 @@ public class BinaryTree {
                 node = node.leftChild;
             }
 
-            while (stack.size() > 0) {
+            if (stack.size() > 0) {
                 node = stack.pop();
                 visted(node);
                 node = node.rightChild;
@@ -197,24 +197,50 @@ public class BinaryTree {
     public void noRecPostOrder(TreeNode p) {
         Stack<TreeNode> stack = new Stack<>();
         TreeNode node = p;
-        while (p != null) {
-            //左子树入栈
-            for (; p.leftChild != null; p = p.leftChild) {
-                stack.push(p);
+        TreeNode prev = p;
+//        while (p != null) {
+//            // 左子树入栈
+//            for (; p.leftChild != null; p = p.leftChild) {
+//                stack.push(p);
+//            }
+//            // 当前结点无右子树或右子树已经输出
+//            while (p != null && (p.rightChild == null || p.rightChild == node)) {
+//                visted(p);
+//                //纪录上一个已输出结点
+//                node = p;
+//                if (stack.empty())
+//                    return;
+//                p = stack.pop();
+//            }
+//            //处理右子树
+//            stack.push(p);
+//            p = p.rightChild;
+//        }
+
+        // 方法二 node为当前节点
+        while (node != null || stack.size() > 0) {
+            while (node != null) {
+                stack.push(node);
+                node = node.leftChild;
             }
-            //当前结点无右子树或右子树已经输出
-            while (p != null && (p.rightChild == null || p.rightChild == node)) {
-                visted(p);
-                //纪录上一个已输出结点
-                node = p;
-                if (stack.empty())
-                    return;
-                p = stack.pop();
+
+            if (stack.size() > 0) {
+                TreeNode temp = stack.peek().rightChild;
+                // 访问叶子节点 和 右子树已访问过的父节点
+                if (temp == null || temp == prev) {
+                    node = stack.pop();
+                    visted(node);
+                    // 记录上次访问节点
+                    prev = node;
+                    // 置为null，为了遍历右子树
+                    node = null;
+                } else {
+                    // 当右子树存在，push 右子树
+                    node = temp;
+                }
             }
-            //处理右子树
-            stack.push(p);
-            p = p.rightChild;
         }
+
     }
 
     public void visted(TreeNode subTree) {

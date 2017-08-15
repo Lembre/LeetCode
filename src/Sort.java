@@ -10,13 +10,14 @@ public class Sort {
         for (int i = 0; i < sort.length; i++) {
             System.out.print(sort[i] + " ");
         }
-//        new Sort().quicksort(sort, 0, sort.length - 1);
-        directInsertSort(sort);
+        new Sort().quicksort(sort, 0, sort.length - 1);
+        //directInsertSort(sort);
         System.out.println();
         for (int i = 0; i < sort.length; i++) {
             System.out.print(sort[i] + " ");
         }
     }
+
 
     public void quicksort(int[] sort, int start, int end) {
         if (start >= end) {
@@ -50,6 +51,31 @@ public class Sort {
 
     }
 
+    // 优化快速排序，支持包含相同元素
+    private static void quickSort2(int[] sort, int start, int end) {
+        if (start >= end) {
+            return ;
+        }
+
+        // low 指向小于pivot的右边界，e指向等于pivot元素的右边界，h指向大于pivot的左边界
+        int low = start;
+        int high = end;
+        int pivot = sort[start];
+        int e = low + 1;
+
+        while (e <= high) {
+            if (sort[e] < pivot) {
+                swap(sort, low++, e++);
+            } else if (sort[e] > pivot) {
+                swap(sort, e, high--);
+            } else {
+                e++;
+            }
+        }
+        quickSort2(sort, start, low - 1);
+        quickSort2(sort, high + 1, end);
+    }
+
     private static void directInsertSort(int[] sort) {
         for (int i = 1; i < sort.length; i++) {
             int index = i - 1;
@@ -62,4 +88,9 @@ public class Sort {
         }
     }
 
+    private static void swap(int[] sort, int i, int j) {
+        sort[i] = sort[i] ^ sort[j];
+        sort[j] = sort[i] ^ sort[j];
+        sort[i] = sort[i] ^ sort[j];
+    }
 }
